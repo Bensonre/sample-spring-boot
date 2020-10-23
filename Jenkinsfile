@@ -30,7 +30,8 @@ pipeline {
             }
             steps {
                 sh 'echo docker build'
-                script{
+                sh 'docker build -t bensonre/interviewSample'
+                /*script{
                     docker.withTool('docker') {
                         repoId = "bensonre/sample"
                         image = docker.build(repoId)
@@ -38,7 +39,7 @@ pipeline {
                                 image.push()
                             }
                     }
-                }
+                }*/
             }
         }
         stage('docker push') {
