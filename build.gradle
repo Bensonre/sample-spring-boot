@@ -2,11 +2,20 @@ plugins {
 	id 'org.springframework.boot' version '2.3.3.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "3.0"
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+sonarqube {
+  properties {
+    property "sonar.projectKey", "Bensonre_sample-spring-boot"
+    property "sonar.organization", "bensonre"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
 
 repositories {
 	mavenCentral()
