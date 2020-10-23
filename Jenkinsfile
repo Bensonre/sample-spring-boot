@@ -30,6 +30,13 @@ pipeline {
             }
             steps {
                 sh 'echo docker build'
+                docker.withTool('docker') {
+                        repoId = "bensonre/sample"
+                        image = docker.build(repoId)
+                        docker.withRegistry("https://registry.hub.docker.com", "docker") {
+                            image.push()
+                        }
+                }
             }
         }
         stage('docker push') {
