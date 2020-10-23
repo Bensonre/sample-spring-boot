@@ -26,11 +26,15 @@ pipeline {
         }
         stage('docker build') {
             agent {
-                docker { image 'busybox' }
+                docker { image 'docker' }
             }
             steps {
                 sh 'echo docker build'
-                sh 'docker build -t bensonre/interviewSample'
+                script{
+                  docker.withTool('docker') {
+                    sh 'docker build -t bensonre/interviewSample'
+                  }
+                }
                 /*script{
                     docker.withTool('docker') {
                         repoId = "bensonre/sample"
