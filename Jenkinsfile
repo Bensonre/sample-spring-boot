@@ -14,7 +14,14 @@ pipeline {
                 docker { image 'busybox' }
             }
             steps {
-                sh 'echo sonarqube'
+                withSonarQubeEnv("Sonarcloud")
+                {
+                    sh "./gradlew sonarqube"
+                    sleep(10)
+                    timeout(time: 1, unit: 'HOURS') {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
             }
         }
         stage('docker build') {
