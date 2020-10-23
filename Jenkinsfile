@@ -18,9 +18,9 @@ pipeline {
                 {
                     sh "chmod +x gradlew && ./gradlew sonarqube"
                     sleep(10)
-                    timeout(time: 1, unit: 'HOURS') {
+                }
+                timeout(time: 1, unit: 'HOURS') {
                         waitForQualityGate abortPipeline: true
-                    }
                 }
             }
         }
