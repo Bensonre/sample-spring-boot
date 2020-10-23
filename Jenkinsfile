@@ -34,8 +34,9 @@ pipeline {
                     docker.withTool('docker') {
                         repoId = "bensonre/sample"
                         image = docker.build(repoId)
-                        docker.withRegistry("https://registry.hub.docker.com", "docker") {
-                            image.push()
+                            withDockerRegistry(credentialsId: 'docker', url: 'https://registry.hub.docker.com') {
+                                image.push()
+                            }
                         }
                     }
                 }
