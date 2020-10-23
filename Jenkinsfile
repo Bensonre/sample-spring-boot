@@ -31,35 +31,32 @@ pipeline {
             steps {
                 sh 'echo docker build'
                 script{
-                  docker.withTool('docker') {
-                    sh 'docker build -t bensonre/interviewSample'
-                  }
-                }
-                /*script{
-                    docker.withTool('docker') {
-                        repoId = "bensonre/sample"
-                        image = docker.build(repoId)
-                            docker.withRegistry(credentialsId: 'docker', url: 'https://registry.hub.docker.com') {
-                                image.push()
-                            }
+                    withDockerRegistry(credentialsId: 'docker', url: 'https://registry.hub.docker.com') {
+                    sh 'docker build -t bensonre/interview .'
                     }
-                }*/
+                }
             }
         }
         stage('docker push') {
             agent {
-                docker { image 'busybox' }
+                docker { image 'docker' }
             }
             steps {
-                sh 'echo docker push'
+                script{
+                    withDockerRegistry(credentialsId: 'docker', url: 'https://registry.hub.docker.com') {
+                        sh 'docker push bensonre/interview'
+                    }
+                }
+                
             }
         }
         stage('app deploy') {
             agent {
+                // change to some image with kubernetes
                 docker { image 'busybox' }
             }
             steps {
-                sh 'echo kube deploy'
+                sh 'kubectl rollout restart deployment/sample-spring-boot'
             }
         }
     }
